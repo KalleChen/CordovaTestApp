@@ -1,0 +1,10 @@
+{
+  "ios": {
+    "debug": {
+      "buildFlag": ["-destination platform=iOS Simulator,name=iPhone 16 Pro"]
+    },
+    "release": {
+      "buildFlag": ["-destination platform=iOS Simulator,name=iPhone 16 Pro"]
+    }
+  }
+}
