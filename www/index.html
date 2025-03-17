@@ -2,20 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" script-src="unsafe-inline" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link rel="stylesheet" href="css/index.css" />
     <script>
       window.i13nData = {
-        tagId: "rubys",
+        tagId: "OA-c19eb6",
         uid: "cordova test user",
         aiRecommender: {
           enabled: true,
-          platformType: "custom"
+          platformType: "custom",
         },
       };
     </script>
-    <script async src="https://omnitag-staging.omniscientai.com/tag-app.js"></script>
+    <!-- <script async src="http://localhost:7001/tag-app.js"></script> -->
+    <script async src="http://localhost:7001/omnitag.js"></script>
+    <script>
+      setTimeout(() => {
+        window.i13n.dispatch("action", {
+          I13N: {
+            action: "AppOpen",
+            fcm_token: "fcm_token",
+          },
+        });
+      }, 3000);
+    </script>
   </head>
   <body>
     <h1>🏠 Home Page</h1>
@@ -25,7 +37,9 @@
       <button onclick="navigateTo('cart.html')">🛒 Go to Cart</button>
       <button onclick="navigateTo('profile.html')">👤 Go to Profile</button>
     </nav>
-
+    <nav>
+      <button onclick="clickProduct()">Click Product</button>
+    </nav>
     <script src="js/index.js"></script>
   </body>
 </html>
