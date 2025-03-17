@@ -13,4 +13,11 @@
   <preference name="AllowUniversalAccessFromFileURLs" value="true" />
   <access allows-arbitrary-loads-in-media="true" allows-arbitrary-loads-in-web-content="true"
     allows-local-networking="true" origin="*" />
+
+  <platform name="ios">
+    <resource-file src="GoogleService-Info.plist" target="Resources/GoogleService-Info.plist" />
+  </platform>
+  <platform name="ios">
+    <preference name="deployment-target" value="12.0" />
+  </platform>
 </widget>

@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
     <link rel="stylesheet" href="css/index.css" />
+    <!-- WARNING: add this shit -->
+    <script src="cordova.js"></script>
     <script>
       window.i13nData = {
         tagId: "OA-c19eb6",
@@ -18,16 +20,7 @@
     </script>
     <!-- <script async src="http://localhost:7001/tag-app.js"></script> -->
     <script async src="http://localhost:7001/omnitag.js"></script>
-    <script>
-      setTimeout(() => {
-        window.i13n.dispatch("action", {
-          I13N: {
-            action: "AppOpen",
-            fcm_token: "fcm_token",
-          },
-        });
-      }, 3000);
-    </script>
+    <script src="js/index.js"></script>
   </head>
   <body>
     <h1>🏠 Home Page</h1>
@@ -40,6 +33,6 @@
     <nav>
       <button onclick="clickProduct()">Click Product</button>
     </nav>
-    <script src="js/index.js"></script>
+    <script src="js/navigation.js"></script>
   </body>
 </html>

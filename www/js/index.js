@@ -1,44 +1,68 @@
-function navigateTo(page) {
-  window.location.href = page;
-}
-
-function clickProduct() {
-  window.i13n.dispatch("action", {
-    I13N: {
-      action: "ClickProduct",
-      products: [
-        {
-          id: 1,
-        },
-      ],
+const deepStringify = (obj) => {
+  return JSON.stringify(
+    obj,
+    (_, value) => {
+      if (typeof value === "object" && value !== null) {
+        try {
+          return JSON.parse(JSON.stringify(value));
+        } catch (err) {
+          const error = err;
+          return `[Circular or unserializable object: ${error.message}]`;
+        }
+      }
+      return typeof value === "function"
+        ? `[Function: ${value.name || "anonymous"}]`
+        : value;
     },
+    2
+  );
+};
+
+window.log = async (...message) => {
+  await fetch(`http://localhost:3002/post-message`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: deepStringify(message),
   });
-}
+};
+
+window.log("Hello from the webview!");
+
+document.addEventListener("DOMContentLoaded", function () {
+  //alert("Calling DOMContentLoaded");
+  document.addEventListener(
+    "deviceready",
+    function () {
+      window.log("Device is ready!");
+    },
+    false
+  );
+});
+
+window.log("After device ready event listener is set");
 
 document.addEventListener(
   "deviceready",
   function () {
-    var server = cordova.plugins.CorHttpd;
+    FCM.getToken()
+      .then((token) => {
+        console.log("FCM Token:", token);
+      })
+      .catch((error) => console.error(error));
 
-    var config = {
-      www_root: "", // absolute or relative path to your app's root
-      port: 8080, // the port number to use
-      localhost_only: false, // whether to listen on localhost only or all interfaces
-    };
-
-    server.startServer(
-      config,
-      function (url) {
-        console.log("Server is live at " + url);
-        // Now you can use 'http://localhost:8080/' instead of 'file://'
-      },
-      function (error) {
-        console.error("Failed to start server: " + error);
+    FCM.onNotification((data) => {
+      if (data.wasTapped) {
+        console.log("Received in background:", data);
+      } else {
+        console.log("Received in foreground:", data);
       }
-    );
+    });
 
-    // To stop the server when it's no longer needed
-    // server.stopServer();
+    FCM.onTokenRefresh((token) => {
+      console.log("Token refreshed:", token);
+    });
   },
   false
 );
